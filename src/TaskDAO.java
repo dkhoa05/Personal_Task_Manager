@@ -9,7 +9,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class Load&SaveTask{
+public class TaskDAO{
     private static final String DB_FILE_PATH = "tasks_database.json";
 
     public JSONArray loadTasks() {
