@@ -57,34 +57,6 @@ public class PersonalTaskManagerViolations {
                                                 String dueDateStr, String priorityLevel,
                                                 boolean isRecurring) {
 
-        if (title == null || title.trim().isEmpty()) {
-            System.out.println("Lỗi: Tiêu đề không được để trống.");
-            return null;
-        }
-        if (dueDateStr == null || dueDateStr.trim().isEmpty()) {
-            System.out.println("Lỗi: Ngày đến hạn không được để trống.");
-            return null;
-        }
-        LocalDate dueDate;
-        try {
-            dueDate = LocalDate.parse(dueDateStr, DATE_FORMATTER);
-        } catch (DateTimeParseException e) {
-            System.out.println("Lỗi: Ngày đến hạn không hợp lệ. Vui lòng sử dụng định dạng YYYY-MM-DD.");
-            return null;
-        }
-        String[] validPriorities = {"Thấp", "Trung bình", "Cao"};
-        boolean isValidPriority = false;
-        for (String validP : validPriorities) {
-            if (validP.equals(priorityLevel)) {
-                isValidPriority = true;
-                break;
-            }
-        }
-        if (!isValidPriority) {
-            System.out.println("Lỗi: Mức độ ưu tiên không hợp lệ. Vui lòng chọn từ: Thấp, Trung bình, Cao.");
-            return null;
-        }
-
         // Tải dữ liệu
         JSONArray tasks = loadTasksFromDb();
 
@@ -151,5 +123,36 @@ public class PersonalTaskManagerViolations {
             "Thấp",
             false
         );
+    }
+
+    private LocalDate validateInput(String title, String dueDateStr, String priorityLevel) {
+        if (title == null || title.trim().isEmpty()) {
+            System.out.println("Lỗi: Tiêu đề không được để trống.");
+            return null;
+        }
+        if (dueDateStr == null || dueDateStr.trim().isEmpty()) {
+            System.out.println("Lỗi: Ngày đến hạn không được để trống.");
+            return null;
+        }
+        LocalDate dueDate;
+        try {
+            dueDate = LocalDate.parse(dueDateStr, DATE_FORMATTER);
+        } catch (DateTimeParseException e) {
+            System.out.println("Lỗi: Ngày đến hạn không hợp lệ. Vui lòng sử dụng định dạng YYYY-MM-DD.");
+            return null;
+        }
+        String[] validPriorities = {"Thấp", "Trung bình", "Cao"};
+        boolean isValidPriority = false;
+        for (String validP : validPriorities) {
+            if (validP.equals(priorityLevel)) {
+                isValidPriority = true;
+                break;
+            }
+        }
+        if (!isValidPriority) {
+            System.out.println("Lỗi: Mức độ ưu tiên không hợp lệ. Vui lòng chọn từ: Thấp, Trung bình, Cao.");
+            return null;
+        }
+        return dueDate;
     }
 }
